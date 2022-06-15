@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Game of Life";
+}
+
+<div ng-controller="GameOfLifeController">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col p-2 text-center">
+                <h2>John Conway's Game of Life</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <form class="col-12 form-inline">
+                    <div class="col-6 form-group">
+                        <input id="size" type="number" class="form-control" placeholder="Enter grid dimension" ng-model="n" />
+                    </div>
+                    <button id="btnSize" class="btn btn-primary" ng-disabled="simulationStarted" ng-click="generate(n)">
+                        Generate
+                    </button>
+                </form>
+            </div>
+            <div class="col-4">
+                <button id="btnStart" class="btn btn-success" ng-disabled="simulationStarted || !gridGenerated" ng-click="start()">
+                    Start Simulation
+                </button>
+                <button id="btnStop" class="btn btn-danger" ng-disabled="!simulationStarted" ng-click="stop()">
+                    Stop Simulation
+                </button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" ng-show="grid">
+            <div class="col p-5">
+                <table class="table table-borderless">
+                    <tr ng-repeat="row in grid">
+                        <td ng-repeat="cell in row track by $index" ng-style="style(cell)"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col p-5 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Simulation time</th>
+                            <th>{{ time }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Alive</th>
+                            <th>Dead</th>
+                        </tr>
+                        <tr>
+                            <th>{{ stats.aliveCount }}</th>
+                            <th>{{ stats.deadCount }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

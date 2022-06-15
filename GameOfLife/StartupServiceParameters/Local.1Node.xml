@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StartupServices xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="GameWeb_InstanceCount" Value="1" />
+    <Parameter Name="Stats_InstanceCount" Value="1" />
+    <Parameter Name="Worker_PartitionCount" Value="4" />
+    <Parameter Name="Worker_PartitionLowKey" Value="0" />
+    <Parameter Name="Worker_PartitionHighKey" Value="3" />
+    <Parameter Name="Worker_MinReplicaSetSize" Value="1" />
+    <Parameter Name="Worker_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="Orchestrator_InstanceCount" Value="1" />
+    <Parameter Name="TimeTrackerActorService_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="TimeTrackerActorService_MinReplicaSetSize" Value="1" />
+    <Parameter Name="TimeTrackerActorService_PartitionCount" Value="1" />
+  </Parameters>
+</StartupServices>
