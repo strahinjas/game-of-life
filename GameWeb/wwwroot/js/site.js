@@ -12,9 +12,11 @@ app.controller('GameOfLifeController', ['$rootScope', '$scope', '$http', '$timeo
 
     $scope.generate = function (n) {
         $http.post('api/game/init?n=' + n)
-            .then(function (data, status) {
+            .then(function (response) {
                 $scope.gridGenerated = true;
                 $scope.refresh();
+            }, function (reason) {
+                alert('Grid dimension should be between 4 and 1024.')
             });
     };
 

@@ -17,6 +17,7 @@ namespace GameWeb.Controllers
     public class GameController : ControllerBase
     {
         private const int minN = 4;
+        private const int maxN = 1024;
 
         private const string timeTrackerActorId = "timeTracker";
 
@@ -37,7 +38,7 @@ namespace GameWeb.Controllers
         {
             GameWeb.RegisterRequestForMetrics();
 
-            if (n < minN)
+            if (n < minN || n > maxN)
             {
                 return BadRequest();
             }
