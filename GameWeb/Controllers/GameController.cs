@@ -35,6 +35,8 @@ namespace GameWeb.Controllers
         [Route("init")]
         public async Task<IActionResult> Initialize([FromQuery] int n)
         {
+            GameWeb.RegisterRequestForMetrics();
+
             if (n < minN)
             {
                 return BadRequest();
@@ -58,6 +60,8 @@ namespace GameWeb.Controllers
         [Route("stop")]
         public async Task StopSimulation()
         {
+            GameWeb.RegisterRequestForMetrics();
+
             await GetOrchestratorService().StopSimulation();
             await GetTimeTrackerActorService().StopTimeTrack(new CancellationToken());
         }
@@ -66,6 +70,8 @@ namespace GameWeb.Controllers
         [Route("grid")]
         public async Task<IActionResult> GetGrid()
         {
+            GameWeb.RegisterRequestForMetrics();
+
             var grid = await GetOrchestratorService().GetCurrentGeneration();
 
             return new JsonResult(grid.ToBoolGrid());
@@ -75,6 +81,8 @@ namespace GameWeb.Controllers
         [Route("char-grid")]
         public async Task<IActionResult> GetCharGrid()
         {
+            GameWeb.RegisterRequestForMetrics();
+
             var grid = await GetOrchestratorService().GetCurrentGeneration();
 
             return new JsonResult(grid.ToCharGrid());
@@ -84,6 +92,8 @@ namespace GameWeb.Controllers
         [Route("time")]
         public async Task<string> GetSimulationTime()
         {
+            GameWeb.RegisterRequestForMetrics();
+
             return await GetTimeTrackerActorService().GetElapsedTime(new CancellationToken());
         }
 
@@ -91,6 +101,8 @@ namespace GameWeb.Controllers
         [Route("stats")]
         public async Task<GameStats> GetGameStats()
         {
+            GameWeb.RegisterRequestForMetrics();
+
             return await GetStatsService().GetGameStats();
         }
 

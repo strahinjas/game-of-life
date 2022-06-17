@@ -9,4 +9,7 @@
   <ClusterConnectionParameters />
   <ApplicationParameterFile Path="..\ApplicationParameters\Local.5Node.xml" />
   <StartupServiceParameterFile Path="..\StartupServiceParameters\Local.5Node.xml" />
+  <UpgradeDeployment Mode="Monitored" Enabled="true">
+    <Parameters FailureAction="Rollback" UpgradeReplicaSetCheckTimeoutSec="1" Force="True" ForceRestart="True" />
+  </UpgradeDeployment>
 </PublishProfile>

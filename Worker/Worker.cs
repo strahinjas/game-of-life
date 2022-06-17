@@ -8,6 +8,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
+using System.Fabric.Description;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -106,6 +107,8 @@ namespace Worker
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
+            await SetupAffinity();
+
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -129,8 +132,6 @@ namespace Worker
 
                     await CalculateNextGeneration(borders);
                     await SwapGenerations();
-
-                    //  await orchestrator.SyncWorkers(cancellationToken);
                 }
                 else
                 {
@@ -315,6 +316,25 @@ namespace Worker
             }
 
             return count;
+        }
+
+        private async Task SetupAffinity()
+        {
+            FabricClient fabricClient = new FabricClient();
+            StatefulServiceUpdateDescription updateDescription = new StatefulServiceUpdateDescription();
+
+            ServiceCorrelationDescription affinityDescription = new ServiceCorrelationDescription();
+            affinityDescription.Scheme = ServiceCorrelationScheme.Affinity;
+            affinityDescription.ServiceName = orchestratorServiceUri;
+
+            if (updateDescription.Correlations == null)
+            {
+                updateDescription.Correlations = new List<ServiceCorrelationDescription>();
+            }
+
+            updateDescription.Correlations.Add(affinityDescription);
+
+            await fabricClient.ServiceManager.UpdateServiceAsync(Context.ServiceName, updateDescription);
         }
     }
 }
