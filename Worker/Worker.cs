@@ -28,6 +28,7 @@ namespace Worker
         private const string aliveCountKey = "aliveCount";
         private const string deadCountKey = "deadCount";
 
+        private const int refreshInterval = 500;
         private const int cooldownTimeout = 1000;
 
         private readonly Random random = new Random();
@@ -128,7 +129,11 @@ namespace Worker
                     await orchestrator.SyncWorkers(cancellationToken);
 
                     var borders = await orchestrator.GetBorderCells(partition);
-                    if (borders == null) continue;
+                    if (borders == null)
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(refreshInterval), cancellationToken);
+                        continue;
+                    }
 
                     await CalculateNextGeneration(borders);
                     await SwapGenerations();
