@@ -279,7 +279,7 @@ namespace Worker
                 }
             }
 
-            await generationsDictionary.AddOrUpdateAsync(tx, await NextGeneration(), next.Value, (k, v) => next.Value);
+            await generationsDictionary.AddOrUpdateAsync(tx, await NextGeneration(), next.Value, (key, value) => next.Value);
             await tx.CommitAsync();
 
             await UpdateStats(gameStats);
